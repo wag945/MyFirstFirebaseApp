@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
     private Button mButton;
     private EditText mDatatbaseStatus;
+    private EditText mDataToSend;
     private DatabaseReference mDatabase;
 // ...
 
@@ -31,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
         mTextView = (TextView) findViewById(R.id.mTextView);
         mDatatbaseStatus = (EditText) findViewById(R.id.mDatabaseStatus);
+        mDataToSend = (EditText) findViewById(R.id.mDataToSend);
         mButton = (Button) findViewById(R.id.mButton);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Write the data to the database
+                String text = mDataToSend.getText().toString();
+
+                mDatabase.child("username").setValue(text);
             }
         });
 
@@ -50,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated
-                Toast.makeText(MainActivity.this,"onDataChange",Toast.LENGTH_LONG).show();
-                String value = dataSnapshot.child("username").getValue(String.class);                Toast.makeText(MainActivity.this,"Received data from database: ",Toast.LENGTH_LONG).show();
+                String value = dataSnapshot.child("username").getValue(String.class);
+                Toast.makeText(MainActivity.this,"Received data from database: ",Toast.LENGTH_LONG).show();
                 mTextView.setText(value);
                 mDatatbaseStatus.setText(dataSnapshot.getValue().toString());
             }
