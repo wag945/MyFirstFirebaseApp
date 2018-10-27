@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import com.google.firebase.database.DataSnapshot;
 
 
@@ -39,18 +38,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Write the data to the database
                 String text = mDataToSend.getText().toString();
+                if (text.length() > 0) {
+                    // Write a message to the database
+                    mDatabase.child("username").setValue(text);
 
-                mDatabase.child("username").setValue(text);
+                    //Clear the edit text widget
+                    mDataToSend.setText("");
+                }
             }
         });
 
-
-        // Write a message to the database
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatatbaseStatus.setText("myRef database: "+mDatabase.getDatabase().toString());
+
         // Read from the database
-
-
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,6 +69,5 @@ public class MainActivity extends AppCompatActivity {
                 mDatatbaseStatus.setText(error.toString());
             }
         });
-
     }
 }
