@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 DatabaseReference newRef = mDatabase.child("Teams").push();
                 Log.d("MainActivity mAddTeam on click","adding team "+teamName);
                 newRef.setValue(team);
+                Intent myIntent = new Intent(MainActivity.this, TeamLobbyActivity.class);
+                MainActivity.this.startActivity(myIntent);
             }
         });
 

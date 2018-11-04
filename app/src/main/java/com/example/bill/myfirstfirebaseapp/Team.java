@@ -76,6 +76,26 @@ public class Team {
         return player5;
     }
 
+    public String getNumPlayers() {
+        int numPlayers = 0;
+        if (null != player1) {
+            numPlayers++;
+        }
+        if (null != player2) {
+            numPlayers++;
+        }
+        if (null != player3) {
+            numPlayers++;
+        }
+        if (null != player4) {
+            numPlayers++;
+        }
+        if (null != player5) {
+            numPlayers++;
+        }
+        return Integer.toString(numPlayers);
+    }
+
     Team() {
         this.name = "";
         this.record = "";
