@@ -2,6 +2,7 @@ package com.example.bill.myfirstfirebaseapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -25,14 +32,57 @@ public class TeamLobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_team_lobby);
         listViewTeams = (ListView) findViewById(R.id.list_view_teams);
 
-//        UserProfilePersistence userProfilePersistence = new UserProfilePersistence(this);
-//        userProfiles = userProfilePersistence.getDataFromDB();
-//        Toast.makeText(ViewAllUsersActivity.this,"Number of users read from DB: "+userProfiles.size(),Toast.LENGTH_SHORT).show();
         teams = new ArrayList<>();
 
         //Need to populate the teams from the DB
-        Team mteam = new Team("Test","Player1","Player2","Player3","Player4","Player5","2-0");
-        teams.add(mteam);
+        DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference("Teams");
+
+        teamsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("There are " + dataSnapshot.getChildrenCount() + " teams");
+                for (DataSnapshot teamSnapshot: dataSnapshot.getChildren()) {
+                    String name = teamSnapshot.child("name").getValue(String.class);
+                    if (name != null) {
+                        Log.d("TeamLobbyActivity", "name from snapshot:" + name);
+                        String record = teamSnapshot.child("record").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "record from snapshot: " + record);
+                        String player1 = teamSnapshot.child("player1").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "player1 from snapshot: " + player1);
+                        String player2 = teamSnapshot.child("player2").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "player2 from snapshot: " + player2);
+                        String player3 = teamSnapshot.child("player3").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "player3 from snapshot: " + player3);
+                        String player4 = teamSnapshot.child("player4").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "player4 from snapshot: " + player4);
+                        String player5 = teamSnapshot.child("player5").getValue(String.class);
+                        Log.d("TeamLobbyActivity", "player5 from snapshot: " + player5);
+                        Team newTeam = new Team();
+                        newTeam.setName(name);
+                        newTeam.addPlayer(player1);
+                        newTeam.addPlayer(player2);
+                        newTeam.addPlayer(player3);
+                        newTeam.addPlayer(player4);
+                        newTeam.addPlayer(player5);
+                        if (null != record) {
+                            newTeam.setRecord(record);
+                        }
+                        else {
+                            newTeam.setRecord("0-0");
+                        }
+                        newTeam.print();
+                        teams.add(newTeam);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(TeamLobbyActivity.this,
+                        "onCanceled error",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
 
         teamAdapter = new TeamAdapter(this,
                 R.layout.content_list_item,
@@ -44,14 +94,8 @@ public class TeamLobbyActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                Team team = (Team) listViewTeams.getItemAtPosition(position);
-//                Intent intent = new Intent(ViewAllUsersActivity.this, UserDetailsActivity.class);
-//                intent.putExtra("FIRSTNAME", userProfile.getFirstname());
-//                intent.putExtra("SURNAME", userProfile.getSurname());
-//                intent.putExtra("USERNAME", userProfile.getUsername());
-//
-//                startActivity(intent);
             }
         });
+
     }
 }

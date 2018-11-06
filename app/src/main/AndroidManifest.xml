@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TeamLobbyActivity"></activity>
+        <activity android:name=".TeamLobbyActivity" />
+        <activity android:name=".AddTeamActivity"></activity>
     </application>
 
 </manifest>

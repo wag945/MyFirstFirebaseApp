@@ -78,19 +78,19 @@ public class Team {
 
     public String getNumPlayers() {
         int numPlayers = 0;
-        if (null != player1) {
+        if (player1.length() > 0) {
             numPlayers++;
         }
-        if (null != player2) {
+        if (player2.length() > 0) {
             numPlayers++;
         }
-        if (null != player3) {
+        if (player3.length() > 0) {
             numPlayers++;
         }
-        if (null != player4) {
+        if (player4.length() > 0) {
             numPlayers++;
         }
-        if (null != player5) {
+        if (player5.length() > 0) {
             numPlayers++;
         }
         return Integer.toString(numPlayers);

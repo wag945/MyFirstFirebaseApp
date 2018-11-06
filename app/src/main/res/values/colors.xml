@@ -11,4 +11,8 @@
     <color name="textBackground">#0277bd</color>
     <color name="whiteBackground">#fafafa</color>
     <color name="oliveButton">#00897b</color>
+    <color name="darkPurple">#6A1B9A</color>
+    <color name="mediumPurple">#8E24AA</color>
+    <color name="lightPurple">#AB47BC</color>
+    <color name="lightlightPurple">#F3E5F5</color>
 </resources>

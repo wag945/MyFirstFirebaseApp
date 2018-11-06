@@ -42,7 +42,7 @@ public class TeamAdapter extends ArrayAdapter{
 
         // Get the number of players from the current Team object and
         // set this text on the numplayers TextView
-        textViewNumPlayers.setText(team.getNumPlayers());
+        textViewNumPlayers.setText("Num Players: " + team.getNumPlayers());
 
         // Find the TextView in the xml layout with the ID version_number
         TextView textViewRecord = (TextView) listItemView.findViewById(R.id.text_view_record);
