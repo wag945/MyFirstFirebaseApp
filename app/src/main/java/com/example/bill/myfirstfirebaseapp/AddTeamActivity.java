@@ -47,7 +47,6 @@ public class AddTeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String teamName = mTeamName.getText().toString();
-//                mDatabase.child("Teams").child("Name").setValue(teamName);
                 Team team = new Team();
                 //Adding values
                 team.setName(teamName);
@@ -59,14 +58,12 @@ public class AddTeamActivity extends AppCompatActivity {
                 team.addPlayer(mPlayer5.getText().toString());
                 team.setRecord(mRecord.getText().toString());
                 DatabaseReference newRef = mDatabase.child("Teams").push();
-                Log.d("MainActivity mAddTeam on click","adding team "+teamName);
+                Log.d("AddTeamActivity mAddTeam on click","adding team "+teamName);
                 newRef.setValue(team);
                 Intent myIntent = new Intent(AddTeamActivity.this, TeamLobbyActivity.class);
                 AddTeamActivity.this.startActivity(myIntent);
             }
         });
-
-//        mDatatbaseStatus.setText("myRef database: "+mDatabase.getDatabase().toString());
 
         DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference("Teams");
 
@@ -75,22 +72,21 @@ public class AddTeamActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("There are " + dataSnapshot.getChildrenCount() + " teams");
                 for (DataSnapshot teamSnapshot: dataSnapshot.getChildren()) {
-//                    Log.d("MainActivity","teamSnapshot: "+teamSnapshot);
                     String name = teamSnapshot.child("name").getValue(String.class);
                     if (name != null) {
-                        Log.d("MainActivity", "name from snapshot:" + name);
+                        Log.d("AddTeamActivity", "name from snapshot:" + name);
                         String record = teamSnapshot.child("record").getValue(String.class);
-                        Log.d("MainActivity", "record from snapshot: " + record);
+                        Log.d("AddTeamActivity", "record from snapshot: " + record);
                         String player1 = teamSnapshot.child("player1").getValue(String.class);
-                        Log.d("MainActivity", "player1 from snapshot: " + player1);
+                        Log.d("AddTeamActivity", "player1 from snapshot: " + player1);
                         String player2 = teamSnapshot.child("player2").getValue(String.class);
-                        Log.d("MainActivity", "player2 from snapshot: " + player2);
+                        Log.d("AddTeamActivity", "player2 from snapshot: " + player2);
                         String player3 = teamSnapshot.child("player3").getValue(String.class);
-                        Log.d("MainActivity", "player3 from snapshot: " + player3);
+                        Log.d("AddTeamActivity", "player3 from snapshot: " + player3);
                         String player4 = teamSnapshot.child("player4").getValue(String.class);
-                        Log.d("MainActivity", "player4 from snapshot: " + player4);
+                        Log.d("AddTeamActivity", "player4 from snapshot: " + player4);
                         String player5 = teamSnapshot.child("player5").getValue(String.class);
-                        Log.d("MainActivity", "player5 from snapshot: " + player5);
+                        Log.d("AddTeamActivity", "player5 from snapshot: " + player5);
                         Team newTeam = new Team();
                         newTeam.setName(name);
                         newTeam.addPlayer(player1);
@@ -111,20 +107,5 @@ public class AddTeamActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
-        // Read from the database
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated
-//                Team team = dataSnapshot.child("Teams").getValue(Team.class);
-//                Toast.makeText(MainActivity.this,"Received team: "+team.getName(),Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                Toast.makeText(MainActivity.this,"onCanceled error",Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 }

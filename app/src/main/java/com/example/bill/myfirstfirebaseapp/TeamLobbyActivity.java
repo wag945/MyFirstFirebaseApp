@@ -41,6 +41,8 @@ public class TeamLobbyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("There are " + dataSnapshot.getChildrenCount() + " teams");
+                //Clear the ArrayList
+                teams.clear();
                 for (DataSnapshot teamSnapshot: dataSnapshot.getChildren()) {
                     String name = teamSnapshot.child("name").getValue(String.class);
                     if (name != null) {
@@ -74,6 +76,9 @@ public class TeamLobbyActivity extends AppCompatActivity {
                         teams.add(newTeam);
                     }
                 }
+
+                //Update the adapter
+                teamAdapter.notifyDataSetChanged();
             }
 
             @Override
